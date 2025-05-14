@@ -1,0 +1,6 @@
+Registration
+1. input validation 
+2. get the input and send to the api as a post request (axios)
+3. reposne -success or error
+a. if success- redirect to the verify page
+b. error- (display error)
