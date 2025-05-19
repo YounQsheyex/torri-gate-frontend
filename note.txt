@@ -4,3 +4,7 @@ Registration
 3. reposne -success or error
 a. if success- redirect to the verify page
 b. error- (display error)
+login page 
+app context
+nav
+dsahboard
