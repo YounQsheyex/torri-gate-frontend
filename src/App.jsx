@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import SuspenseLoader from "./components/SuspenseLoader";
-import { Link } from "react-router-dom";
 
 // Lazy-loaded pages
 const DashboardLayout = lazy(() =>
@@ -20,7 +19,9 @@ const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const Error404 = lazy(() => import("./pages/Error404"));
 const Verification = lazy(() => import("./pages/Verification"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const CheckYourEmail = lazy(() => import("./pages/CheckYourEmail"));
 import VerifyEmail from "./pages/VerifyEmail";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -28,19 +29,28 @@ function App() {
       <Suspense fallback={<SuspenseLoader />}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/home" element={<HomeLoggedIn />} />
-          <Route path="/property/:propertyId" element={<PropertyDetail />} />
+
+          <Route
+            element={<ProtectedRoute allowedRoles={["tenants", "landlord"]} />}
+          >
+            <Route path="/home" element={<HomeLoggedIn />} />
+            <Route path="/property/:propertyId" element={<PropertyDetail />} />
+          </Route>
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verification" element={<Verification />} />
           <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/check-email" element={<CheckYourEmail />} />
 
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="property" element={<AdminProperty />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="create" element={<CreateProperty />} />
+          <Route element={<ProtectedRoute allowedRoles={["landlord"]} />}>
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="property" element={<AdminProperty />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="create" element={<CreateProperty />} />
+            </Route>
           </Route>
 
           {/* 404 route last */}
