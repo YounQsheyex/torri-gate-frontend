@@ -32,7 +32,7 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route
-            element={<ProtectedRoute allowedRoles={["tenants", "landlord"]} />}
+            element={<ProtectedRoute allowedRoles={["tenant", "landlord"]} />}
           >
             <Route path="/home" element={<HomeLoggedIn />} />
             <Route path="/property/:propertyId" element={<PropertyDetail />} />
