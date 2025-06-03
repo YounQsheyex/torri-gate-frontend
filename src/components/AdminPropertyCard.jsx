@@ -58,11 +58,14 @@ const AdminPropertyCard = ({
     try {
       const response = await axiosInstance.delete(
         `/property/landlord/${propertyId}`,
+
         { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response.status === 200) {
-        window.location.reload();
         toast.success("Property Deleted successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
       }
     } catch (error) {
       console.log(error);
@@ -106,7 +109,7 @@ const AdminPropertyCard = ({
 
       <div className="flex flex-col gap-[22px] items-end relative">
         <div className="flex items-center gap-2">
-          <button onClick={handleDelete} className="cursor-pointer">
+          <button onClick={() => handleDelete(_id)} className="cursor-pointer">
             <RiDeleteBin6Line />
           </button>
           <button onClick={toggleDropdown} className="cursor-pointer">
